@@ -1,6 +1,7 @@
 package com.example.spaceshiprunner.config.impl;
 
 import com.example.spaceshiprunner.config.TypeConfig;
+import lombok.Getter;
 import org.reflections.Reflections;
 
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.Set;
 
 public class TypeConfigImpl implements TypeConfig {
 
+    @Getter
     private final Reflections scanner;
     private final Map<Class, Class> ifcToImpl;
 
