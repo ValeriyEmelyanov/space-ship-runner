@@ -12,12 +12,16 @@ import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toMap;
 
-public class InjectPropertyAnnotationObjectConfigurator implements ObjectConfigurator {
+/**
+ * Конфигуратор, отвественный за настройку полей объекта,
+ * аннотированных @Property.
+ */
+public class PropertyAnnotationObjectConfigurator implements ObjectConfigurator {
 
-    private Map<String, String> propertiesMap;
+    private final Map<String, String> propertiesMap;
 
     @SneakyThrows
-    public InjectPropertyAnnotationObjectConfigurator() {
+    public PropertyAnnotationObjectConfigurator() {
         String path = ClassLoader.getSystemClassLoader().getResource("application.properties").getPath();
         Stream<String> lines = new BufferedReader(new FileReader(path)).lines();
         propertiesMap = lines.map(line -> line.split("=")).collect(toMap(arr -> arr[0], arr -> arr[1]));

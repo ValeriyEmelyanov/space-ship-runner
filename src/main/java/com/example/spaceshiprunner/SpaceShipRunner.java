@@ -1,13 +1,14 @@
 package com.example.spaceshiprunner;
 
+import com.example.spaceshiprunner.annotation.Autoinject;
 import com.example.spaceshiprunner.service.Announcer;
-import com.example.spaceshiprunner.service.impl.ConsoleAnnouncer;
 import com.example.spaceshiprunner.service.Refueller;
-import com.example.spaceshiprunner.service.impl.RefuellerImpl;
 
 public class SpaceShipRunner {
-    private Refueller refueller = ObjectFactory.getInstance().createObject(Refueller.class);
-    private Announcer announcer = ObjectFactory.getInstance().createObject(Announcer.class);
+    @Autoinject
+    private Refueller refueller;
+    @Autoinject
+    private Announcer announcer;
 
     public void start(SpaceShip ship) {
         refueller.fillup();
