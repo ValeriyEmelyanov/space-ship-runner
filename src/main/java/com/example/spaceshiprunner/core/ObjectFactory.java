@@ -3,6 +3,9 @@ package com.example.spaceshiprunner.core;
 import com.example.spaceshiprunner.config.ObjectConfigurator;
 import lombok.SneakyThrows;
 
+import javax.annotation.PostConstruct;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +29,17 @@ public class ObjectFactory {
 
         configurators.forEach(configurator -> configurator.configure(instance, context));
 
+        invokePostConstructor(implClass, instance);
+
         return instance;
+    }
+
+    private <T> void invokePostConstructor(Class<T> implClass, T instance)
+            throws IllegalAccessException, InvocationTargetException {
+        for (Method method : implClass.getMethods()) {
+            if (method.isAnnotationPresent(PostConstruct.class)) {
+                method.invoke(instance);
+            }
+        }
     }
 }
