@@ -7,6 +7,10 @@ import org.reflections.Reflections;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Конфигуратор, отвечающий за сканирование пакетов
+ * и предоставление имплементации интерфеса или просто возврат класса.
+ */
 public class TypeConfigImpl implements TypeConfig {
 
     @Getter

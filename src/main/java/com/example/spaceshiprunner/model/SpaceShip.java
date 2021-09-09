@@ -1,4 +1,4 @@
-package com.example.spaceshiprunner;
+package com.example.spaceshiprunner.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
