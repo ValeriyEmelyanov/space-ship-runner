@@ -1,6 +1,7 @@
 package com.example.spaceshiprunner.core;
 
 import com.example.spaceshiprunner.config.ObjectConfigurator;
+import com.example.spaceshiprunner.config.ProxyConfigurator;
 import lombok.SneakyThrows;
 
 import javax.annotation.PostConstruct;
@@ -11,6 +12,7 @@ import java.util.List;
 
 public class ObjectFactory {
     private final List<ObjectConfigurator> configurators = new ArrayList<>();
+    private final List<ProxyConfigurator> proxyConfigurators = new ArrayList<>();
     private final ApplicationContext context;
 
     @SneakyThrows
@@ -20,6 +22,10 @@ public class ObjectFactory {
                 context.getTypeConfig().getScanner().getSubTypesOf(ObjectConfigurator.class)) {
             configurators.add(type.getDeclaredConstructor().newInstance());
         }
+        for (Class<? extends ProxyConfigurator> type :
+                context.getTypeConfig().getScanner().getSubTypesOf(ProxyConfigurator.class)) {
+            proxyConfigurators.add(type.getDeclaredConstructor().newInstance());
+        }
     }
 
     @SneakyThrows
@@ -27,11 +33,17 @@ public class ObjectFactory {
 
         T instance = implClass.getDeclaredConstructor().newInstance();
 
-        configurators.forEach(configurator -> configurator.configure(instance, context));
+        configure(instance);
 
         invokePostConstructor(implClass, instance);
 
+        instance = wrapWithProxyIfNeeded(implClass, instance);
+
         return instance;
+    }
+
+    private <T> void configure(T instance) {
+        configurators.forEach(configurator -> configurator.configure(instance, context));
     }
 
     private <T> void invokePostConstructor(Class<T> implClass, T instance)
@@ -41,5 +53,12 @@ public class ObjectFactory {
                 method.invoke(instance);
             }
         }
+    }
+
+    private <T> T wrapWithProxyIfNeeded(Class<T> implClass, T instance) {
+        for (ProxyConfigurator proxyConfigurator : proxyConfigurators) {
+            instance = (T) proxyConfigurator.replaceWithProxyIfNeeded(instance, implClass);
+        }
+        return instance;
     }
 }
