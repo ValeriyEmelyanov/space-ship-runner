@@ -14,3 +14,8 @@
 mvn clean package
 java -jar target/space-ship-runner-1.0-SNAPSHOT.jar
 ```
+или
+```
+java -jar target/space-ship-runner-1.0-SNAPSHOT-jar-with-dependencies.jar
+
+```
