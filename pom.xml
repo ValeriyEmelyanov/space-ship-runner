@@ -23,6 +23,7 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.20</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.annotation</groupId>
@@ -57,9 +58,8 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>
-                                ${project.build.directory}/libs
-                            </outputDirectory>
+                            <includeScope>compile</includeScope>
+                            <outputDirectory>${project.build.directory}/libs</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -71,10 +71,8 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
+                            <mainClass>com.example.spaceshiprunner.Main</mainClass>
                             <classpathPrefix>libs/</classpathPrefix>
-                            <mainClass>
-                                com.example.spaceshiprunner.Main
-                            </mainClass>
                         </manifest>
                     </archive>
                 </configuration>
