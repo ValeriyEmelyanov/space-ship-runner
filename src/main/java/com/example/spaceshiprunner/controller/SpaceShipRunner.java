@@ -1,5 +1,6 @@
 package com.example.spaceshiprunner.controller;
 
+import com.example.spaceshiprunner.annotation.Introduce;
 import com.example.spaceshiprunner.model.SpaceShip;
 import com.example.spaceshiprunner.annotation.Autoinject;
 import com.example.spaceshiprunner.service.Announcer;
@@ -8,6 +9,7 @@ import com.example.spaceshiprunner.service.Refueller;
 /**
  * Отвечает за основную бизнеч-логику приложения.
  */
+@Introduce
 public class SpaceShipRunner {
     @Autoinject
     private Refueller refueller;

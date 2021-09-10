@@ -8,3 +8,7 @@
 * Reflections
 * Lombok
 * SOLID
+
+#### Сборка и запуск
+mvn clean package
+java -jar target/space-ship-runner-1.0-SNAPSHOT.jar
